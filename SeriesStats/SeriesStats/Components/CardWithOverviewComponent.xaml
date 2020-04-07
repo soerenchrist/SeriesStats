@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<pancakeview:PancakeView  xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                          xmlns="http://xamarin.com/schemas/2014/forms"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                          xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                          x:Class="SeriesStats.Components.CardWithOverviewComponent"
+                          Padding="10"
+                          Margin="10">
+    <Grid HeightRequest="200">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <pancakeview:PancakeView CornerRadius="4"
+                                 Grid.RowSpan="2"
+                                 Elevation="0">
+            <forms:CachedImage x:Name="Image"
+                               Aspect="AspectFill"/>
+        </pancakeview:PancakeView>
+
+        <Label FontFamily="{StaticResource BoldFont}"
+               FontSize="16"
+               Margin="10,0,0,0"
+               Grid.Row="0"
+               Grid.Column="1"
+               x:Name="TitleLabel"/>
+
+        <Label FontSize="12"
+               Margin="10,5,0,0"
+               Grid.Column="1"
+               Grid.Row="1"
+               MaxLines="4"
+               LineBreakMode="TailTruncation"
+               x:Name="OverviewLabel" />
+    </Grid>
+</pancakeview:PancakeView>

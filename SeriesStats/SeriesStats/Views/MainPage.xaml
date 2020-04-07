@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:SeriesStats.Controls;assembly=SeriesStats"
+             xmlns:views="clr-namespace:SeriesStats.Views;assembly=SeriesStats"
+             xmlns:viewModels="clr-namespace:SeriesStats.ViewModels;assembly=SeriesStats"
+             xmlns:mvvm="http://prismlibrary.com"
+             mc:Ignorable="d"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             mvvm:ViewModelLocator.AutowireViewModel="True"
+             Title="Test"
+             MasterBehavior="Popover"
+             x:DataType="viewModels:MainPageViewModel"
+             x:Class="SeriesStats.Views.MainPage">
+    <MasterDetailPage.Master>
+        <views:MenuPage BindingContext="{Binding MenuPageViewModel}" />
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <ContentPage></ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

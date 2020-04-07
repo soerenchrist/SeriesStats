@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:SeriesStats.Components;assembly=SeriesStats"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:movieDb="clr-namespace:SeriesStats.Core.Models.MovieDb;assembly=SeriesStats.Core"
+             xmlns:myShows="clr-namespace:SeriesStats.ViewModels.MyShows;assembly=SeriesStats"
+             x:Class="SeriesStats.Views.MyShows.MyShowDetailPage"
+             x:DataType="myShows:MyShowDetailPageViewModel"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             TabIndex="1"
+             Title="{Binding Show.Title}">
+    <ContentPage Title="Show">
+        <ContentPage.IconImageSource>
+            <FontImageSource Glyph="&#xf429;" FontFamily="{StaticResource MaterialFontFamily}"/>
+        </ContentPage.IconImageSource>
+        <ScrollView>
+            <StackLayout>
+                <components:ShowOverviewComponent Show="{Binding ShowDetail}"
+                                                  Cast="{Binding Cast}" />
+                <pancakeView:PancakeView Margin="20, 10">
+                    
+                    <StackLayout Padding="20, 10, 20, 10">
+                        <Label Text="External links"
+                               FontSize="18"
+                               FontFamily="{StaticResource BoldFont}" />
+                        <Button Text="View on Trakt"
+                                Command="{Binding OpenShowExternallyCommand}"
+                                CommandParameter="trakt"/>
+                        
+                        <Button Text="View on TheMovieDB"
+                                Command="{Binding OpenShowExternallyCommand}"
+                                CommandParameter="tmdb"/>
+                    </StackLayout>
+                </pancakeView:PancakeView>
+            </StackLayout>
+            
+        </ScrollView>
+    </ContentPage>
+    <ContentPage Title="Next Episode">
+        <ContentPage.IconImageSource>
+            <FontImageSource Glyph="&#xf40a;"
+                             FontFamily="{StaticResource MaterialFontFamily}"/>
+        </ContentPage.IconImageSource>
+        <Grid>
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+            <Grid IsVisible="{Binding HasNewEpisode, Converter={StaticResource NegationConverter}}">
+                <Label HorizontalOptions="Center"
+                      VerticalOptions="Center"
+                      Text="No next episode found"
+                      FontSize="18"/>
+            </Grid>
+            <StackLayout IsVisible="{Binding HasNewEpisode}">
+                <Label Text="{Binding ShowDetail.Status}"
+                       Margin="20,10,0,0"/>
+                <Label Text="{Binding ShowDetail.Networks[0].Name}"
+                       Margin="20,5,0,0"/>
+                <components:ImageWithTitleComponent ImageSource="{Binding NextEpisode.StillPath, Converter={StaticResource AbsolutePathConverter}, ConverterParameter=w780}"
+                                                  Title="{Binding NextEpisode.Name}"
+                                                  HeightRequest="200"
+                                                  Margin="20, 10"/>
+                
+                <pancakeView:PancakeView 
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    Margin="20,10">
+                    <pancakeView:PancakeView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SetEpisodeWatchedCommand}"/>
+                    </pancakeView:PancakeView.GestureRecognizers>
+                    <Label VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           FontSize="16"
+                           TextColor="{StaticResource BadgeForegroundColor}"
+                           Margin="8">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontFamily="{StaticResource MaterialFontFamily}"
+                                      Text="&#xf40a;"/>
+                                <Span Text=" Episode completed"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </pancakeView:PancakeView>
+                
+                <pancakeView:PancakeView Margin="20, 10">
+                    <StackLayout Padding="20, 10, 20, 10">
+                        <Label Text="Description"
+                               FontSize="18"
+                               FontFamily="{StaticResource BoldFont}" />
+                        <Label Text="{Binding NextEpisode.Overview}"
+                               FontSize="14"
+                               LineHeight="1.2"
+                               LineBreakMode="WordWrap" />
+                    </StackLayout>
+                </pancakeView:PancakeView>
+                <pancakeView:PancakeView Margin="20, 10">
+                    
+                    <StackLayout Padding="20, 10, 20, 10">
+                        <Label Text="External links"
+                               FontSize="18"
+                               FontFamily="{StaticResource BoldFont}" />
+                        <Button Text="View on Trakt"
+                                Command="{Binding OpenExternallyCommand}"
+                                CommandParameter="trakt"/>
+                        
+                        <Button Text="View on TheMovieDB"
+                                Command="{Binding OpenExternallyCommand}"
+                                CommandParameter="tmdb"/>
+                    </StackLayout>
+                </pancakeView:PancakeView>
+            </StackLayout>
+        </Grid>
+    </ContentPage> 
+    <ContentPage Title="Seasons">
+        <ContentPage.IconImageSource>
+            <FontImageSource Glyph="&#xf279;"
+                             FontFamily="{StaticResource MaterialFontFamily}"/>
+        </ContentPage.IconImageSource>
+        <renderedViews:HorizontalListView ItemsSource="{Binding ShowDetail.Seasons}"
+                                          ColumnCount="1"
+                                          ItemSpacing="10"
+                                          CollectionPadding="10"
+                                          VerticalOptions="FillAndExpand"
+                                          TapCommand="{Binding SeasonSelectedCommand}"
+                                          ListLayout="Grid"
+                                          EnableDragAndDrop="False"
+                                          ItemHeight="140">
+            <renderedViews:HorizontalListView.ItemTemplate>
+                <DataTemplate x:DataType="movieDb:Season">
+                    <ViewCell>
+                        <components:CardWithOverviewComponent Title="{Binding Name}"
+                                                          ImageSource="{Binding PosterPath, Converter={StaticResource AbsolutePathConverter}}"
+                                                          Overview="{Binding Overview}"
+                        />
+                    </ViewCell>
+                </DataTemplate>
+            </renderedViews:HorizontalListView.ItemTemplate>
+        </renderedViews:HorizontalListView>
+    </ContentPage>
+</TabbedPage>

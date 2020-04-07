@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:viewmodels="clr-namespace:SeriesStats.ViewModels;assembly=SeriesStats"
+             x:DataType="auth:AuthenticationPageViewModel"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             x:Class="SeriesStats.Views.Auth.AuthenticationPage"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:iOsSpecific="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:auth="clr-namespace:SeriesStats.ViewModels.Auth;assembly=SeriesStats"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             iOsSpecific:Page.UseSafeArea="True">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="{StaticResource CaretBackIcon}"
+                        FontFamily="{StaticResource MaterialFontFamily}" 
+                        Padding="5"
+                        FontSize="30"
+                        Margin="5"
+                        WidthRequest="40"
+                        BackgroundColor="{DynamicResource WindowBackgroundColor}"
+                        BorderColor="{DynamicResource WindowBackgroundColor}"
+                        TextColor="{StaticResource LabelColor}"
+                        Command="{prism:GoBack}" /> 
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsLoggedIn}"
+                         Grid.Row="1">
+                <Label Text="{Binding TraktUser.Name}"
+                       HorizontalOptions="Center"/>
+                <Button Text="Log out"
+                        Command="{Binding LogoutCommand}"/>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding IsLoggedIn, Converter={StaticResource NegationConverter}}"
+                         Grid.Row="1">
+                <Button Text="Login to Trakt"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Command="{Binding LoginCommand}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

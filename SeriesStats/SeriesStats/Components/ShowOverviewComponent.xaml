@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:movieDb="clr-namespace:SeriesStats.Core.Models.MovieDb;assembly=SeriesStats.Core"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:controls="clr-namespace:SeriesStats.Controls;assembly=SeriesStats"
+             x:Class="SeriesStats.Components.ShowOverviewComponent">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <forms:CachedImage
+        x:Name="ShowImage"
+        HeightRequest="400"
+        Aspect="AspectFill" />
+    
+    <pancakeView:PancakeView Grid.Row="1"
+                             Margin="20, -50, 20, 10">
+        <Grid Padding="20, 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label x:Name="ShowNameLabel"
+                   HorizontalOptions="Center"
+                   FontFamily="{StaticResource BoldFont}"
+                   FontSize="21"
+                   Grid.Row="0" />
+            <Label FontSize="14"
+                   Grid.Row="1"
+                   x:Name="ShowCreatorInfoLabel"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource SubLabelColor}">
+            </Label>
+            <Label Grid.Row="2"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource SubLabelColor}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontSize="20" 
+                              x:Name="VoteAverageLabel"/>
+                        <Span Text="/10   "
+                              FontSize="12" />
+
+                        <Span x:Name="RatingsLabel"
+                              FontSize="14" />
+                        <Span Text=" Ratings"
+                              FontSize="14" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <FlexLayout x:Name="GenresLayout"
+                        Direction="Row"
+                        HorizontalOptions="FillAndExpand"
+                        Grow="1"
+                        JustifyContent="Center"
+                        Grid.Row="3">
+            </FlexLayout>
+        </Grid>
+        
+    </pancakeView:PancakeView>
+    <pancakeView:PancakeView Grid.Row="2"
+                             Margin="20, 10">
+        <StackLayout Padding="20, 10, 20, 10">
+            <Label Text="Description"
+                   FontSize="18"
+                   FontFamily="{StaticResource BoldFont}" />
+            <Label x:Name="OverviewLabel"
+                   FontSize="14"
+                   LineHeight="1.2"
+                   LineBreakMode="WordWrap" />
+        </StackLayout>
+    </pancakeView:PancakeView>
+    <pancakeView:PancakeView Grid.Row="3"
+                             Margin="20, 10, 20, 10">
+        <Grid Padding="20, 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Text="Cast"
+                   FontSize="18"
+                   FontFamily="{StaticResource BoldFont}" />
+            <renderedViews:HorizontalListView
+                x:Name="CastList"
+                Grid.Row="1"
+                ColumnCount="3"
+                CollectionPadding="20,10"
+                SnapStyle="Start"
+                ItemSpacing="15"
+                HeightRequest="220"
+                Margin="-16,0"
+                ItemHeight="200"
+                ListLayout="Linear"
+                EnableDragAndDrop="false"
+                >
+                <renderedViews:HorizontalListView.ItemTemplate>
+                    <DataTemplate x:DataType="movieDb:Cast">
+                        <ViewCell>
+                            
+                            <controls:CastItem Cast="{Binding .}" />
+                        </ViewCell>
+                    </DataTemplate>
+                </renderedViews:HorizontalListView.ItemTemplate>
+            </renderedViews:HorizontalListView>
+        </Grid>
+    </pancakeView:PancakeView>
+</Grid>

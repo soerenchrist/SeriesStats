@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:myShows="clr-namespace:SeriesStats.ViewModels.MyShows;assembly=SeriesStats"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:shows="clr-namespace:SeriesStats.Core.Models.MovieDb.Shows;assembly=SeriesStats.Core"
+             x:Class="SeriesStats.Views.MyShows.EpisodesPage"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             x:Name="EpisodePage"
+             x:DataType="myShows:EpisodesPageViewModel">
+    <ContentPage.Content>
+        
+        <renderedViews:HorizontalListView 
+                                          ColumnCount="1"
+                                          SnapStyle="Center"
+                                          ListLayout="Carousel"
+                                          EnableDragAndDrop="false"
+                                          CurrentIndex="{Binding SelectedIndex}"
+                                          ItemsSource="{Binding Episodes}">
+            <renderedViews:HorizontalListView.ItemTemplate>
+            <DataTemplate x:DataType="shows:MovieDbEpisode">
+                <ViewCell>
+                    <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <forms:CachedImage
+                    Source="{Binding StillPath, Converter={StaticResource AbsolutePathConverter}, ConverterParameter=w780}"
+                    HeightRequest="400"
+                    Aspect="AspectFill" />
+                <pancakeView:PancakeView Grid.Row="1"
+                                         CornerRadius="10"
+                                         Margin="20,-50,20,10">
+                    <StackLayout Padding="10">
+                        <Label Text="{Binding Name}"
+                               HorizontalOptions="Center"
+                               FontFamily="{StaticResource BoldFont}"
+                               FontSize="21" />
+                        <Label Text="{Binding AirDate.Date, Converter={StaticResource DateConverter}}"
+                               HorizontalOptions="Center"
+                               Margin="8"
+                               FontSize="16" />
+                        <Label FontSize="16"
+                               HorizontalOptions="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding Source={x:Reference Name=EpisodePage}, Path=BindingContext.Season.Name}"/>
+                                    <Span Text=" - "/>
+                                    <Span Text="Episode "/>
+                                    <Span Text="{Binding EpisodeNumber}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+                </pancakeView:PancakeView>
+            </Grid>
+                </ViewCell>
+            </DataTemplate>
+            </renderedViews:HorizontalListView.ItemTemplate>
+            
+            </renderedViews:HorizontalListView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:segmented="clr-namespace:SegmentedControl.FormsPlugin.Abstractions;assembly=SegmentedControl.FormsPlugin.Abstractions"
+             xmlns:viewModels="clr-namespace:SeriesStats.ViewModels;assembly=SeriesStats"
+             xmlns:behaviors="http://prismlibrary.com"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:shows="clr-namespace:SeriesStats.Core.Models.MovieDb.Shows;assembly=SeriesStats.Core"
+             xmlns:components="clr-namespace:SeriesStats.Components;assembly=SeriesStats"
+             xmlns:stats="clr-namespace:SeriesStats.Core.Models.Stats;assembly=SeriesStats.Core"
+             xmlns:stats1="clr-namespace:SeriesStats.ViewModels.Stats;assembly=SeriesStats"
+             mc:Ignorable="d"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             x:DataType="stats1:ShowStatsPageViewModel"
+             x:Class="SeriesStats.Views.Stats.ShowStatsPage">
+    <NavigationPage.TitleView>
+        <Grid>
+            <segmented:SegmentedControl HorizontalOptions="End"
+                                        Margin="5"
+                                        WidthRequest="200">
+                <segmented:SegmentedControl.Behaviors>
+                    <behaviors:EventToCommandBehavior EventName="ValueChanged"
+                                                      EventArgsConverter="{StaticResource ValueChangedEventArgsConverter}"
+                                                      Command="{Binding DisplayModeChangedCommand}" />
+                </segmented:SegmentedControl.Behaviors>
+                <segmented:SegmentedControl.Children>
+                    <segmented:SegmentedControlOption Text="By Plays" WidthRequest="100" />
+                    <segmented:SegmentedControlOption Text="By Runtime" WidthRequest="100" />
+                </segmented:SegmentedControl.Children>
+            </segmented:SegmentedControl>
+        </Grid>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <RefreshView Command="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+        <ScrollView>
+            <StackLayout Padding="10">
+                <Label Style="{StaticResource HeaderLabel}"
+                       Text="Statistics" />
+                <renderedViews:MaterialFrame>
+                    <StackLayout Spacing="0">
+                        <Label Style="{StaticResource StatValueLabel}"
+                               Text="{Binding BaseStats.EpisodeCount}" />
+                        <Label Style="{StaticResource StatNameLabel}"
+                               Text="Total count of episodes" />
+
+                        <Label Style="{StaticResource StatValueLabel}"
+                               Text="{Binding BaseStats.TotalMinutes, Converter={StaticResource TimeConverter}}"
+                               Margin="0,10,0,0" />
+                        <Label Style="{StaticResource StatNameLabel}"
+                               Text="Total time watched" />
+                    </StackLayout>
+                </renderedViews:MaterialFrame>
+                <Label Style="{StaticResource HeaderLabel}"
+                       Text="Plays by genre" />
+                <renderedViews:MaterialFrame>
+                    <Grid>
+                        <ActivityIndicator Grid.Row="0"
+                                           IsRunning="{Binding IsBusy}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                        <forms:ChartView Chart="{Binding GenreChart}"
+                                         Grid.Row="0"
+                                         IsVisible="{Binding IsBusy, Converter={StaticResource NegationConverter}}"
+                                         HeightRequest="220" />
+                    </Grid>
+                </renderedViews:MaterialFrame>
+
+                <Label Style="{StaticResource HeaderLabel}"
+                       Text="Plays by weekday" />
+                <renderedViews:MaterialFrame>
+                    <Grid>
+                        <forms:ChartView Chart="{Binding WeekdayChart}"
+                                         Grid.Row="0"
+                                         IsVisible="{Binding IsBusy, Converter={StaticResource NegationConverter}}"
+                                         HeightRequest="220" />
+                        <ActivityIndicator Grid.Row="0"
+                                           IsRunning="{Binding IsBusy}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                    </Grid>
+                </renderedViews:MaterialFrame>
+                
+                <Label Style="{StaticResource HeaderLabel}"
+                       Text="Plays by time of day" />
+                <renderedViews:MaterialFrame>
+                    <Grid>
+                        <forms:ChartView Chart="{Binding TimeOfDayChart}"
+                                         Grid.Row="0"
+                                         IsVisible="{Binding IsBusy, Converter={StaticResource NegationConverter}}"
+                                         HeightRequest="220" />
+                        <ActivityIndicator Grid.Row="0"
+                                           IsRunning="{Binding IsBusy}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                    </Grid>
+                </renderedViews:MaterialFrame>
+
+                <Label Style="{StaticResource HeaderLabel}"
+                       Text="History" />
+                <renderedViews:MaterialFrame>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <segmented:SegmentedControl TintColor="{StaticResource PrimaryColor}"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    SelectedTextColor="{StaticResource ToolbarIconBackground}"
+                                                    Margin="5"
+                                                    WidthRequest="200">
+                            <segmented:SegmentedControl.Behaviors>
+                                <behaviors:EventToCommandBehavior EventName="ValueChanged"
+                                                                  EventArgsConverter="{StaticResource ValueChangedEventArgsConverter}"
+                                                                  Command="{Binding HistoryModeChangedCommand}" />
+                            </segmented:SegmentedControl.Behaviors>
+                            <segmented:SegmentedControl.Children>
+                                <segmented:SegmentedControlOption Text="Last week"  />
+                                <segmented:SegmentedControlOption Text="Last month"/>
+                                <segmented:SegmentedControlOption Text="Last year"  />
+                            </segmented:SegmentedControl.Children>
+                        </segmented:SegmentedControl>
+                        <ActivityIndicator Grid.Row="1"
+                                           IsRunning="{Binding IsBusy}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                        <forms:ChartView Chart="{Binding HistoryChart}"
+                                         Grid.Row="1"
+                                         IsVisible="{Binding IsBusy, Converter={StaticResource NegationConverter}}"
+                                         HeightRequest="220" />
+                    </Grid>
+                </renderedViews:MaterialFrame>
+
+                <Label Style="{StaticResource HeaderLabel}"
+                       Text="Most watched shows" />
+
+                <Grid>
+                    <ActivityIndicator Grid.Row="0"
+                                           IsRunning="{Binding IsBusy}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                    <renderedViews:HorizontalListView ColumnCount="1"
+                                                          CollectionPadding="40,10"
+                                                          SnapStyle="None"
+                                                          ItemSpacing="15"
+                                                          HeightRequest="240"
+                                                          Margin="-16,0"
+                                                          ItemHeight="140"
+                                                          ListLayout="Carousel"
+                                                          EnableDragAndDrop="false"
+                                                          ItemsSource="{Binding MostWatchedShows}">
+                        <renderedViews:HorizontalListView.ItemTemplate>
+                            <DataTemplate x:DataType="stats:ShowWatchStat">
+                                <ViewCell>
+                                    <components:ShowWatchTimeComponent Title="{Binding Show.Title}" 
+                                                                       ImageSource="{Binding Show.Image.ImagePath, Converter={StaticResource AbsolutePathConverter}}"
+                                                                       MinutesPlayed="{Binding MinutesWatched}"
+                                                                       PlayNumber="{Binding NumberOfWatches}"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </renderedViews:HorizontalListView.ItemTemplate>
+                    </renderedViews:HorizontalListView>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

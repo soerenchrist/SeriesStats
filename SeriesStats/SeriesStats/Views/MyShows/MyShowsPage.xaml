@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:components="clr-namespace:SeriesStats.Components;assembly=SeriesStats"
+             xmlns:trakt="clr-namespace:SeriesStats.Core.Models.Trakt;assembly=SeriesStats.Core"
+             xmlns:myShows="clr-namespace:SeriesStats.ViewModels.MyShows;assembly=SeriesStats"
+             mc:Ignorable="d"
+             x:DataType="myShows:MyShowsPageViewModel"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             x:Class="SeriesStats.Views.MyShows.MyShowsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Filter"
+                     Command="{Binding FilterCommand}"
+                     Order="Primary"
+                     >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="&#xf4bf;"
+                                 FontFamily="{StaticResource MaterialFontFamily}"
+                                 Color="{StaticResource ToolbarIconBackground}"/>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <RefreshView Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <renderedViews:HorizontalListView ItemsSource="{Binding Shows}"
+                                              ColumnCount="1"
+                                              ItemSpacing="10"
+                                              CollectionPadding="10"
+                                              VerticalOptions="FillAndExpand"
+                                              ListLayout="Grid"
+                                              TapCommand="{Binding ShowSelectedCommand}"
+                                              EnableDragAndDrop="False"
+                                              ItemHeight="140">
+                <renderedViews:HorizontalListView.ItemTemplate>
+                    <DataTemplate x:DataType="trakt:TraktShow">
+                        <ViewCell>
+                            <components:MyShowComponent Title="{Binding Title}"
+                                                        ImageSource="{Binding Image.ImagePath, Converter={StaticResource AbsolutePathConverter}}"
+                                                        ShowProgress="{Binding ShowProgress}"
+                            />
+                        </ViewCell>
+                    </DataTemplate>
+                </renderedViews:HorizontalListView.ItemTemplate>
+            </renderedViews:HorizontalListView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

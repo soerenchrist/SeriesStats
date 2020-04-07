@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<pancakeView:PancakeView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             x:Class="SeriesStats.Components.ImageWithTitleComponent"
+             Elevation="{StaticResource CardElevation}"
+             CornerRadius="{StaticResource CardCornerRadius}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <forms:CachedImage HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                           DownsampleToViewSize="true"
+                           Grid.RowSpan="2"
+                           x:Name="BackdropImage"
+                           sharedTransitions:Transition.Name="showtransition"
+                           sharedTransitions:Transition.Group="{Binding Id}"
+                           Source = "{Binding Show.BackdropPath, Converter={StaticResource AbsolutePathConverter}}"
+                           Aspect="AspectFill"/>
+        <pancakeView:PancakeView Grid.Row="1"
+                                 BackgroundColor="#55000000"
+                                 CornerRadius="0"
+                                 Elevation="0">
+            <Label Text="{Binding Show.Name}"
+                   VerticalOptions="Center"
+                   x:Name="ShowNameLabel"
+                   Style="{StaticResource CardHeaderLabel}"
+                   Margin="20,10"/>
+        </pancakeView:PancakeView>
+    </Grid>
+</pancakeView:PancakeView>

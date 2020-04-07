@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SeriesStats.Styles.DarkTheme">
+
+    <Color x:Key="PrimaryColor">#ff0000</Color>
+    <Color x:Key="WindowBackgroundColor">#222222</Color>
+    <Color x:Key="CardBackgroundColor">#111111</Color>
+    <Color x:Key="BadgeBackgroundColor">#eeeeee</Color>
+    <Color x:Key="BadgeForegroundColor">Black</Color>
+    <Color x:Key="ToolbarBackgroundColor">#222222</Color>
+
+    <Color x:Key="LabelColor">#eeeeee</Color>
+    <Color x:Key="SubLabelColor">#cccccc</Color>
+    
+    <OnPlatform x:Key="ToolbarIconBackground" x:TypeArguments="Color">
+        <On Platform="Android" Value="White" />
+        <On Platform="iOS" Value="White" />
+    </OnPlatform>
+
+</ResourceDictionary>

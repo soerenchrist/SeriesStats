@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             Title="{Binding Season.Name}"
+             x:DataType="myShows:SeasonPageViewModel"
+             xmlns:components="clr-namespace:SeriesStats.Components;assembly=SeriesStats"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             xmlns:shows="clr-namespace:SeriesStats.Core.Models.MovieDb.Shows;assembly=SeriesStats.Core"
+             xmlns:myShows="clr-namespace:SeriesStats.ViewModels.MyShows;assembly=SeriesStats"
+             x:Class="SeriesStats.Views.MyShows.SeasonPage">
+    <renderedViews:HorizontalListView ItemsSource="{Binding Episodes}"
+                                      ColumnCount="1"
+                                      ItemSpacing="10"
+                                      CollectionPadding="10"
+                                      VerticalOptions="FillAndExpand"
+                                      TapCommand="{Binding EpisodeSelectedCommand}"
+                                      ListLayout="Grid"
+                                      EnableDragAndDrop="False"
+                                      ItemHeight="140">
+        <renderedViews:HorizontalListView.ItemTemplate>
+            <DataTemplate x:DataType="shows:MovieDbEpisode">
+                <ViewCell>
+                    <components:CardWithOverviewComponent Title="{Binding Name}"
+                                                      ImageSource="{Binding StillPath, Converter={StaticResource AbsolutePathConverter}}"
+                                                      Overview="{Binding Overview}"
+                    />
+                </ViewCell>
+            </DataTemplate>
+        </renderedViews:HorizontalListView.ItemTemplate>
+    </renderedViews:HorizontalListView>
+</ContentPage>

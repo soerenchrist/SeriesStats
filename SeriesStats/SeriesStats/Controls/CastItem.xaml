@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="SeriesStats.Controls.CastItem">
+    
+        <pancakeView:PancakeView CornerRadius="6">
+            <forms:CachedImage HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand"
+                               DownsampleToViewSize="true"
+                               x:Name="CastImage"
+                               HeightRequest="130"
+                               Aspect="AspectFill" />
+        </pancakeView:PancakeView>
+        <Label
+               Margin="0,6,0,0"
+               x:Name="NameLabel"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               FontFamily="{StaticResource BoldFont}"
+               FontSize="12"
+               HorizontalTextAlignment="Center"/>
+        <Label x:Name="CharacterLabel"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               FontSize="12"
+               FontFamily="{StaticResource LightFont}"
+               HorizontalTextAlignment="Center"/>
+
+</StackLayout>

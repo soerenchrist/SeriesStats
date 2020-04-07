@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="Explore"
+             xmlns:viewmodels="clr-namespace:SeriesStats.ViewModels;assembly=SeriesStats"
+             x:DataType="explore:ExplorePageViewModel"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             sharedTransitions:SharedTransitionNavigationPage.TransitionSelectedGroup="{Binding SelectedItemId}"
+             sharedTransitions:SharedTransitionNavigationPage.BackgroundAnimation="SlideFromRight"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:shows="clr-namespace:SeriesStats.Core.Models.MovieDb.Shows;assembly=SeriesStats.Core"
+             xmlns:components="clr-namespace:SeriesStats.Components;assembly=SeriesStats"
+             xmlns:explore="clr-namespace:SeriesStats.ViewModels.Explore;assembly=SeriesStats"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="SeriesStats.Views.Explore.ExplorePage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary"
+                     Text="Search"
+                     Command="{Binding SearchCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource Glyph="{StaticResource SearchIcon}"
+                                 FontFamily="{StaticResource MaterialFontFamily}"
+                                 Color="{StaticResource ToolbarIconBackground}"
+                                 />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Style="{StaticResource HeaderLabel}"
+                   Text="Trending Shows" />
+            <renderedViews:HorizontalListView ColumnCount="1"
+                                              CollectionPadding="40,10"
+                                              ItemSpacing="15"
+                                              HeightRequest="240"
+                                              Margin="-16,0"
+                                              ItemHeight="220"
+                                              EnableDragAndDrop="false"
+                                              TapCommand="{Binding ShowSelectedCommand}"
+                                              ItemsSource="{Binding TrendingShows}">
+                <renderedViews:HorizontalListView.ItemTemplate>
+                    <DataTemplate x:DataType="shows:MovieDbTrendingItem">
+                        <ViewCell>
+                            <components:ImageWithTitleComponent Title="{Binding Name}" ImageSource="{Binding BackdropPath, Converter={StaticResource AbsolutePathConverter}}" />
+                        </ViewCell>
+                    </DataTemplate>
+                </renderedViews:HorizontalListView.ItemTemplate>
+            </renderedViews:HorizontalListView>
+           
+            <Label Style="{StaticResource HeaderLabel}"
+                   Text="Trending Movies" />
+            <renderedViews:HorizontalListView ColumnCount="1"
+                                              CollectionPadding="40,10"
+                                              ItemSpacing="15"
+                                              HeightRequest="240"
+                                              Margin="-16,0"
+                                              ItemHeight="220"
+                                              EnableDragAndDrop="false"
+                                              TapCommand="{Binding MovieSelectedCommand}"
+                                              ItemsSource="{Binding TrendingMovies}">
+                <renderedViews:HorizontalListView.ItemTemplate>
+                    <DataTemplate x:DataType="shows:MovieDbTrendingItem">
+                        <ViewCell>
+                            <components:ImageWithTitleComponent Title="{Binding Title}" 
+                                                              ImageSource="{Binding BackdropPath, Converter={StaticResource AbsolutePathConverter}}" />
+
+                        </ViewCell>
+                    </DataTemplate>
+                </renderedViews:HorizontalListView.ItemTemplate>
+            </renderedViews:HorizontalListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

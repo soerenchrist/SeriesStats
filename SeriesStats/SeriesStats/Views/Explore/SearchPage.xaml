@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" xmlns:components="clr-namespace:SeriesStats.Components" xmlns:renderedviews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:shows="clr-namespace:SeriesStats.Core.Models.MovieDb.Shows;assembly=SeriesStats.Core"
+             xmlns:abstractions="clr-namespace:SegmentedControl.FormsPlugin.Abstractions;assembly=SegmentedControl.FormsPlugin.Abstractions"
+             x:DataType="explore:SearchPageViewModel"
+             x:Class="SeriesStats.Views.Explore.SearchPage"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:explore="clr-namespace:SeriesStats.ViewModels.Explore;assembly=SeriesStats"
+             ios:Page.UseSafeArea="True">
+    <ContentPage.Content>
+        <Grid>
+        <StackLayout>
+            <Grid Padding="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Text="{StaticResource CaretBackIcon}"
+                        FontFamily="{StaticResource MaterialFontFamily}" 
+                        Padding="5"
+                        FontSize="30"
+                        Margin="5"
+                        WidthRequest="40"
+                        BackgroundColor="{StaticResource WindowBackgroundColor}"
+                        BorderColor="{StaticResource WindowBackgroundColor}"
+                        TextColor="{StaticResource LabelColor}"
+                        Command="{prism:GoBack}" /> 
+                <SearchBar Grid.Column="1"
+                           Placeholder="Search Shows, Movies..."
+                           Text="{Binding SearchText}"
+                           />
+            </Grid>
+            <abstractions:SegmentedControl 
+                                        HorizontalOptions="CenterAndExpand"
+                                        WidthRequest="200">
+                <abstractions:SegmentedControl.Behaviors>
+                    <prism:EventToCommandBehavior EventName="ValueChanged"
+                                                      EventArgsConverter="{StaticResource ValueChangedEventArgsConverter}"
+                                                      Command="{Binding SearchTypeChangedCommand}" />
+                </abstractions:SegmentedControl.Behaviors>
+                <abstractions:SegmentedControl.Children>
+                    <abstractions:SegmentedControlOption Text="Shows" />
+                    <abstractions:SegmentedControlOption Text="Movies" WidthRequest="100" />
+                </abstractions:SegmentedControl.Children>
+            </abstractions:SegmentedControl>
+            
+            <renderedviews:HorizontalListView ItemsSource="{Binding ShowResults}"
+                                              ColumnCount="1"
+                                              ItemSpacing="10"
+                                              IsVisible="{Binding ShowShows}"
+                                              CollectionPadding="10"
+                                              VerticalOptions="FillAndExpand"
+                                              ListLayout="Grid"
+                                              TapCommand="{Binding SearchItemTappedCommand}"
+                                              EnableDragAndDrop="False"
+                                              ItemHeight="140">
+                <renderedviews:HorizontalListView.ItemTemplate>
+                    <DataTemplate x:DataType="shows:MovieDbTrendingItem">
+                        <ViewCell>
+                            <components:CardWithOverviewComponent Title="{Binding Name}"
+                                                              ImageSource="{Binding PosterPath, Converter={StaticResource AbsolutePathConverter}}"
+                                                              Overview="{Binding Overview}"
+                                                              />
+                        </ViewCell>
+                    </DataTemplate>
+                </renderedviews:HorizontalListView.ItemTemplate>
+            </renderedviews:HorizontalListView>
+            <renderedviews:HorizontalListView ItemsSource="{Binding MovieResults}"
+                                              ColumnCount="1"
+                                              ItemSpacing="10"
+                                              IsVisible="{Binding ShowShows, Converter={StaticResource NegationConverter}}"
+                                              CollectionPadding="10"
+                                              VerticalOptions="FillAndExpand"
+                                              ListLayout="Grid"
+                                              TapCommand="{Binding SearchItemTappedCommand}"
+                                              EnableDragAndDrop="False"
+                                              ItemHeight="140">
+                <renderedviews:HorizontalListView.ItemTemplate>
+                    <DataTemplate x:DataType="shows:MovieDbTrendingItem">
+                        <ViewCell>
+                            <components:CardWithOverviewComponent Title="{Binding Title}"
+                                                              ImageSource="{Binding PosterPath, Converter={StaticResource AbsolutePathConverter}}"
+                                                              Overview="{Binding Overview}"
+                            />
+                        </ViewCell>
+                    </DataTemplate>
+                </renderedviews:HorizontalListView.ItemTemplate>
+            </renderedviews:HorizontalListView>
+        </StackLayout>
+        <ActivityIndicator HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           IsRunning="{Binding IsBusy}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

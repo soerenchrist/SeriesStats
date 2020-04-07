@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mvvm="http://prismlibrary.com"
+             xmlns:viewModels="clr-namespace:SeriesStats.ViewModels;assembly=SeriesStats"
+             xmlns:controls="clr-namespace:SeriesStats.Controls;assembly=SeriesStats"
+             xmlns:iOsSpecific="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             mc:Ignorable="d"
+             Title=" "
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             x:DataType="viewModels:MenuPageViewModel"
+             mvvm:ViewModelLocator.AutowireViewModel="True"
+             x:Class="SeriesStats.Views.MenuPage"
+             iOsSpecific:Page.UseSafeArea="True">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Padding="10">
+                <Label FontFamily="{StaticResource LightFont}"
+                       Text="Trakt"/>
+                <Label Text="{Binding TraktUser.Name}"
+                       IsVisible="{Binding TraktUser, Converter={StaticResource IsNotNullConverter}}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GotoAuthCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Button Text="Log in"
+                        Command="{Binding GotoAuthCommand}"
+                        IsVisible="{Binding TraktUser, Converter={StaticResource IsNullConverter}}"/>
+            </StackLayout>
+            
+            <ListView ItemsSource="{Binding MenuItems}"  
+                      CachingStrategy="RecycleElement"
+                      SeparatorVisibility="None" 
+                      Grid.Row="1"
+                      RowHeight="70"
+                      HasUnevenRows="False">
+                <ListView.Behaviors>
+                    <mvvm:EventToCommandBehavior EventName="ItemTapped" Command="{Binding MenuItemSelectedCommand}" 
+                                                 EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <controls:MenuItemTemplate />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

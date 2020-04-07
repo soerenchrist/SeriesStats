@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="{Binding Item.Name}"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:viewModels="clr-namespace:SeriesStats.ViewModels;assembly=SeriesStats"
+             xmlns:sharedTransitions="clr-namespace:Plugin.SharedTransitions;assembly=Plugin.SharedTransitions"
+             xmlns:mvvm="http://prismlibrary.com"
+             BackgroundColor="{DynamicResource WindowBackgroundColor}"
+             xmlns:movieDb="clr-namespace:SeriesStats.Core.Models.MovieDb;assembly=SeriesStats.Core"
+             xmlns:renderedViews="clr-namespace:Sharpnado.Presentation.Forms.RenderedViews;assembly=Sharpnado.Presentation.Forms"
+             xmlns:controls="clr-namespace:SeriesStats.Controls;assembly=SeriesStats"
+             xmlns:explore="clr-namespace:SeriesStats.ViewModels.Explore;assembly=SeriesStats"
+             x:DataType="explore:ShowOverviewPageViewModel"
+             mvvm:ViewModelLocator.AutowireViewModel="True"
+
+             x:Class="SeriesStats.Views.Explore.ShowOverviewPage">
+    <ContentPage.Content>
+        <ScrollView Orientation="Vertical">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <forms:CachedImage
+                    Source="{Binding Item.BackdropPath, Converter={StaticResource AbsolutePathConverter}, ConverterParameter=w780}"
+                    sharedTransitions:Transition.Name="showtransition"
+                    HeightRequest="400"
+                    Aspect="AspectFill" />
+                <pancakeView:PancakeView Grid.Row="1"
+                                         CornerRadius="10"
+                                         Margin="20, -50, 20, 10">
+                    <Grid Padding="20, 10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Text="{Binding Item.Name}"
+                               HorizontalOptions="Center"
+                               FontFamily="{StaticResource BoldFont}"
+                               FontSize="21"
+                               Grid.Row="0" />
+                        <Label FontSize="14"
+                               Grid.Row="1"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource SubLabelColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding Item.FirstAirYear}" />
+                                    <Span Text=" - " />
+                                    <Span Text="{Binding ShowDetail.CreatedBy[0].Name}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label Grid.Row="2"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource SubLabelColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding Item.VoteAverage}"
+                                          FontSize="20" />
+                                    <Span Text="/10   "
+                                          FontSize="12" />
+
+                                    <Span Text="{Binding Item.VoteCount}"
+                                          FontSize="14" />
+                                    <Span Text=" Ratings"
+                                          FontSize="14" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <FlexLayout BindableLayout.ItemsSource="{Binding Item.Genres}"
+                                    Direction="Row"
+                                    HorizontalOptions="FillAndExpand"
+                                    Grow="1"
+                                    JustifyContent="Center"
+                                    Grid.Row="3">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="movieDb:Genre">
+                                    <controls:GenreBadge Genre="{Binding .}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+
+                    </Grid>
+                </pancakeView:PancakeView>
+
+                <pancakeView:PancakeView Grid.Row="2"
+                                         Margin="20, 10">
+                    <StackLayout Padding="20, 10, 20, 10">
+                        <Label Text="Description"
+                               FontSize="18"
+                               FontFamily="{StaticResource BoldFont}" />
+                        <Label Text="{Binding Item.Overview}"
+                               FontSize="14"
+                               LineHeight="1.2"
+                               LineBreakMode="WordWrap" />
+                    </StackLayout>
+                </pancakeView:PancakeView>
+
+                <pancakeView:PancakeView Grid.Row="3"
+                                         Margin="20, 10, 20, 10">
+                    <Grid Padding="20, 10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Text="Cast"
+                               FontSize="18"
+                               FontFamily="{StaticResource BoldFont}" />
+                        <renderedViews:HorizontalListView
+                            Grid.Row="1"
+                            ColumnCount="3"
+                            CollectionPadding="20,10"
+                            SnapStyle="Start"
+                            ItemSpacing="15"
+                            HeightRequest="220"
+                            Margin="-16,0"
+                            ItemHeight="200"
+                            ListLayout="Linear"
+                            EnableDragAndDrop="false"
+                            ItemsSource="{Binding Cast}">
+                            <renderedViews:HorizontalListView.ItemTemplate>
+                                <DataTemplate x:DataType="movieDb:Cast">
+                                    <ViewCell>
+                                        <controls:CastItem Cast="{Binding .}"/>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </renderedViews:HorizontalListView.ItemTemplate>
+                        </renderedViews:HorizontalListView>
+                    </Grid>
+                </pancakeView:PancakeView>
+            </Grid>
+
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>
