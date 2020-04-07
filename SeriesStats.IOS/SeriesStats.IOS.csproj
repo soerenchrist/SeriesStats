@@ -103,7 +103,7 @@
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SeriesStats\SeriesStats\SeriesStats.csproj">
+    <ProjectReference Include="..\SeriesStats\SeriesStats.csproj">
       <Project>{2ee5a4f3-1ec9-47b7-b145-cdf5e603cf3d}</Project>
       <Name>SeriesStats</Name>
     </ProjectReference>

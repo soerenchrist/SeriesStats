@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SeriesStats.Core\SeriesStats.Core.csproj" />
+    <ProjectReference Include="..\SeriesStats.Core\SeriesStats.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
