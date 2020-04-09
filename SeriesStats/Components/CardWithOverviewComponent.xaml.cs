@@ -3,7 +3,7 @@ using Xamarin.Forms.PancakeView;
 
 namespace SeriesStats.Components
 {
-    public partial class CardWithOverviewComponent : PancakeView
+    public partial class CardWithOverviewComponent
     {
         public static readonly BindableProperty TitleProperty =
             BindableProperty.Create(nameof(Title), typeof(string), typeof(CardWithOverviewComponent),

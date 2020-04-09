@@ -8,6 +8,7 @@ using Prism.Unity;
 using SeriesStats.Controls;
 using SeriesStats.Core.Auth;
 using SeriesStats.Core.Auth.Abstractions;
+using SeriesStats.Core.Repository;
 using SeriesStats.Core.Repository.Abstractions;
 using SeriesStats.Core.Services.Core;
 using SeriesStats.Core.Services.Core.Abstractions;
@@ -35,7 +36,7 @@ namespace SeriesStats
             containerRegistry.Register<IApiConfiguration, ApiConfiguration>();
             containerRegistry.Register<ILocationProvider, LocationProvider>();
             containerRegistry.Register<IAuthenticator, Authenticator>();
-            containerRegistry.RegisterSingleton<ITokenRepository, SecureTokenStorage>();
+            containerRegistry.RegisterSingleton<ITokenRepository, LiteDbTokenRepository>();
             containerRegistry.Register<IShowService, ShowService>();
             containerRegistry.Register<IMovieService, MovieService>();
             containerRegistry.Register<IGenreService, GenreService>();
