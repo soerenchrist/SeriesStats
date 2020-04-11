@@ -18,7 +18,6 @@ using SeriesStats.Core.Services.Trakt;
 using SeriesStats.Core.Services.Trakt.Abstractions;
 using SeriesStats.Core.Util;
 using SeriesStats.Core.Util.Abstractions;
-using SeriesStats.Respository;
 using SeriesStats.Util;
 using SeriesStats.Util.Abstractions;
 using SeriesStats.Views;
