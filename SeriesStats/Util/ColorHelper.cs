@@ -18,31 +18,10 @@ namespace SeriesStats.Util
             SKColor.Parse("#ffa600")
         };
 
-        private static readonly List<SKColor> _darkChartColors = new List<SKColor>
-        {
-            SKColor.Parse("#ff3f5c"),
-            SKColor.Parse("#ff4e52"),
-            SKColor.Parse("#ff5d47"),
-            SKColor.Parse("#ff6c3c"),
-            SKColor.Parse("#ff7a30"),
-            SKColor.Parse("#ff8924"),
-            SKColor.Parse("#ff9815"),
-            SKColor.Parse("#ffa600")
-        };
-
-
-
         public static SKColor GetColorForId(int id)
         {
-            var theme = ThemeHelper.CurrentTheme;
-            if (theme == Theme.Light)
-            {
-                var realId = id % _lightChartColors.Count;
-                return _lightChartColors[realId];
-            }
-
-            var darkId = id % _darkChartColors.Count;
-            return _darkChartColors[darkId];
+            var realId = id % _lightChartColors.Count;
+            return _lightChartColors[realId];
         }
     }
 }

@@ -33,3 +33,11 @@ The format looks like this:
 ```
 
 Thanks to [Mobile.BuildTools](https://github.com/dansiegel/Mobile.BuildTools) those secrets will be usable in the app.
+
+## Screenshots
+### Explore screen
+![Explore screen](Screenshots/explore_screen.png)
+### Stats screen
+![Stats screen](Screenshots/stats_screen.png)
+### Seen shows
+![Seen shows screen](Screenshots/seen_shows_screen.png)

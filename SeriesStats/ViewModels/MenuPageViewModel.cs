@@ -68,12 +68,6 @@ namespace SeriesStats.ViewModels
                 Name = "Show Stats",
                 Route = $"{nameof(ShowStatsPage)}"
             });
-            MenuItems.Add(new MenuItem
-            {
-                Icon = "\uf493",
-                Name = "Settings",
-                Route = $"{nameof(SettingsPage)}"
-            });
         }
     }
 

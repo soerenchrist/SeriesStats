@@ -62,9 +62,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <BundleResource Include="..\SeriesStats\SeriesStats\config.json">
-      <Link>config.json</Link>
-    </BundleResource>
     <None Include="Info.plist" />
     <Compile Include="Native\MessageIos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

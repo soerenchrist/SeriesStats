@@ -60,17 +60,9 @@ namespace SeriesStats
         protected override void OnInitialized()
         {
             InitializeComponent();
-            ThemeHelper.ChangeTheme(Settings.ThemeOption, true);
             AppCenter.Start("android=6731aeed-94a5-4291-81f3-adc025a0dc5b;",
                 typeof(Analytics), typeof(Crashes), typeof(Distribute));
             NavigationService.NavigateAsync($"{nameof(MainPage)}/{nameof(MyNavigationPage)}/{nameof(ExplorePage)}");
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-
-            ThemeHelper.ChangeTheme(Settings.ThemeOption, true);
         }
     }
 }

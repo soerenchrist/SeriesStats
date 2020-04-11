@@ -10,7 +10,7 @@ using Sharpnado.Presentation.Forms.Droid;
 
 namespace SeriesStats.Droid
 {
-    [Activity(Label = "SeriesStats", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.UiMode | ConfigChanges.Orientation)]
+    [Activity(Label = "SeriesStats", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -47,13 +47,6 @@ namespace SeriesStats.Droid
         public override void OnBackPressed()
         {
             Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
-        }
-
-        public override void OnConfigurationChanged(Configuration newConfig)
-        {
-            base.OnConfigurationChanged(newConfig);
-
-            ThemeHelper.ChangeTheme(Settings.ThemeOption, true);
         }
     }
 
